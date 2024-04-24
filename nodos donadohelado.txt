@@ -1,0 +1,33 @@
+// Crear nodos para conductores
+CREATE (:Conductor {
+    experiencia: 0,
+    salario: 0,
+    pais: "Valor",
+    nombre: "Valor",
+    altura: "Valor",
+    ejercicio_fisico: "Valor"
+})
+
+// Crear nodos para escuderías
+CREATE (:Escuderia {
+    copiloto: "Valor",
+    pais: "Valor",
+    experiencia: 0,
+    nombre: "Valor",
+    presupuesto: 0
+})
+
+// Crear nodos para tipos de vehículos
+CREATE (:TipoVehiculo {nombre: "Valor", descripcion: "Valor"})
+
+// Crear nodos para competencias
+CREATE (:Competencia {nombre: "Valor", ubicacion: "Valor", tipo: "Valor"})
+
+// Crear nodos para ayudantes
+CREATE (:Ayudante {nombre: "Valor", rol: "Valor"})
+
+// Crear nodos para copilotos
+CREATE (:Copiloto {nombre: "Valor", experiencia: 0})
+
+// Crear nodos para países
+CREATE (:Pais {nombre: "Valor", continente: "Valor"})
