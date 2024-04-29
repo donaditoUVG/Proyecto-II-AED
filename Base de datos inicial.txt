@@ -1,0 +1,340 @@
+
+{
+  "identity": 0,
+  "labels": [
+    "Conductor"
+  ],
+  "properties": {
+    "altura": "Valor",
+    "ejercicio_fisico": "Valor",
+    "experiencia": 0,
+    "salario": 0,
+    "nombre": "Valor",
+    "pais": "Valor"
+  },
+  "elementId": "0"
+}
+{
+  "identity": 1,
+  "labels": [
+    "Escuderia"
+  ],
+  "properties": {
+    "copiloto": "Valor",
+    "presupuesto": 0,
+    "experiencia": 0,
+    "nombre": "Valor",
+    "pais": "Valor"
+  },
+  "elementId": "1"
+}
+{
+  "identity": 2,
+  "labels": [
+    "TipoVehiculo"
+  ],
+  "properties": {
+    "descripcion": "Valor",
+    "nombre": "Valor"
+  },
+  "elementId": "2"
+}
+{
+  "identity": 3,
+  "labels": [
+    "Competencia"
+  ],
+  "properties": {
+    "tipo": "Valor",
+    "ubicacion": "Valor",
+    "nombre": "Valor"
+  },
+  "elementId": "3"
+}
+{
+  "identity": 4,
+  "labels": [
+    "Ayudante"
+  ],
+  "properties": {
+    "nombre": "Valor",
+    "rol": "Valor"
+  },
+  "elementId": "4"
+}
+{
+  "identity": 5,
+  "labels": [
+    "Copiloto"
+  ],
+  "properties": {
+    "experiencia": 0,
+    "nombre": "Valor"
+  },
+  "elementId": "5"
+}
+{
+  "identity": 6,
+  "labels": [
+    "Pais"
+  ],
+  "properties": {
+    "continente": "Valor",
+    "nombre": "Valor"
+  },
+  "elementId": "6"
+}
+{
+  "identity": 7,
+  "labels": [
+    "Conductor"
+  ],
+  "properties": {
+    "altura": "1.68m",
+    "ejercicio_fisico": "Alto",
+    "salario": 6000,
+    "experiencia": 7,
+    "nombre": "Sophie Dubois",
+    "pais": "Francia"
+  },
+  "elementId": "7"
+}
+{
+  "identity": 8,
+  "labels": [
+    "Conductor"
+  ],
+  "properties": {
+    "altura": "1.80m",
+    "ejercicio_fisico": "Medio",
+    "experiencia": 3,
+    "salario": 4500,
+    "nombre": "Giovanni Rossi",
+    "pais": "Italia"
+  },
+  "elementId": "8"
+}
+{
+  "identity": 9,
+  "labels": [
+    "Conductor"
+  ],
+  "properties": {
+    "altura": "1.75m",
+    "ejercicio_fisico": "Alto",
+    "salario": 7000,
+    "experiencia": 10,
+    "nombre": "Max Müller",
+    "pais": "Alemania"
+  },
+  "elementId": "9"
+}
+{
+  "identity": 10,
+  "labels": [
+    "Escuderia"
+  ],
+  "properties": {
+    "copiloto": "Luis Hernández",
+    "presupuesto": 120000,
+    "experiencia": 8,
+    "nombre": "SpeedRacers",
+    "pais": "España"
+  },
+  "elementId": "10"
+}
+{
+  "identity": 11,
+  "labels": [
+    "Escuderia"
+  ],
+  "properties": {
+    "copiloto": "Anna Kowalski",
+    "presupuesto": 90000,
+    "experiencia": 5,
+    "nombre": "ThunderSpeed",
+    "pais": "Polonia"
+  },
+  "elementId": "11"
+}
+{
+  "identity": 12,
+  "labels": [
+    "Escuderia"
+  ],
+  "properties": {
+    "copiloto": "Emma Smith",
+    "presupuesto": 150000,
+    "experiencia": 12,
+    "nombre": "British Racers",
+    "pais": "Reino Unido"
+  },
+  "elementId": "12"
+}
+{
+  "identity": 13,
+  "labels": [
+    "TipoVehiculo"
+  ],
+  "properties": {
+    "descripcion": "Sport Utility Vehicle",
+    "nombre": "SUV"
+  },
+  "elementId": "13"
+}
+{
+  "identity": 14,
+  "labels": [
+    "TipoVehiculo"
+  ],
+  "properties": {
+    "descripcion": "Automóvil compacto",
+    "nombre": "Compacto"
+  },
+  "elementId": "14"
+}
+{
+  "identity": 15,
+  "labels": [
+    "TipoVehiculo"
+  ],
+  "properties": {
+    "descripcion": "Automóvil deportivo",
+    "nombre": "Deportivo"
+  },
+  "elementId": "15"
+}
+{
+  "identity": 16,
+  "labels": [
+    "Conductor"
+  ],
+  "properties": {
+    "altura": "1.68m",
+    "ejercicio_fisico": "Alto",
+    "salario": 6000,
+    "experiencia": 7,
+    "nombre": "Sophie Dubois",
+    "pais": "Francia"
+  },
+  "elementId": "16"
+}
+{
+  "identity": 17,
+  "labels": [
+    "Conductor"
+  ],
+  "properties": {
+    "altura": "1.80m",
+    "ejercicio_fisico": "Medio",
+    "experiencia": 3,
+    "salario": 4500,
+    "nombre": "Giovanni Rossi",
+    "pais": "Italia"
+  },
+  "elementId": "17"
+}
+{
+  "identity": 18,
+  "labels": [
+    "Conductor"
+  ],
+  "properties": {
+    "altura": "1.75m",
+    "ejercicio_fisico": "Alto",
+    "salario": 7000,
+    "experiencia": 10,
+    "nombre": "Max Müller",
+    "pais": "Alemania"
+  },
+  "elementId": "18"
+}
+{
+  "identity": 19,
+  "labels": [
+    "Escuderia"
+  ],
+  "properties": {
+    "copiloto": "Luis Hernández",
+    "presupuesto": 120000,
+    "experiencia": 8,
+    "nombre": "SpeedRacers",
+    "pais": "España"
+  },
+  "elementId": "19"
+}
+{
+  "identity": 20,
+  "labels": [
+    "Escuderia"
+  ],
+  "properties": {
+    "copiloto": "Anna Kowalski",
+    "presupuesto": 90000,
+    "experiencia": 5,
+    "nombre": "ThunderSpeed",
+    "pais": "Polonia"
+  },
+  "elementId": "20"
+}
+{
+  "identity": 21,
+  "labels": [
+    "Escuderia"
+  ],
+  "properties": {
+    "copiloto": "Emma Smith",
+    "presupuesto": 150000,
+    "experiencia": 12,
+    "nombre": "British Racers",
+    "pais": "Reino Unido"
+  },
+  "elementId": "21"
+}
+{
+  "identity": 22,
+  "labels": [
+    "TipoVehiculo"
+  ],
+  "properties": {
+    "descripcion": "Sport Utility Vehicle",
+    "nombre": "SUV"
+  },
+  "elementId": "22"
+}
+{
+  "identity": 23,
+  "labels": [
+    "TipoVehiculo"
+  ],
+  "properties": {
+    "descripcion": "Automóvil compacto",
+    "nombre": "Compacto"
+  },
+  "elementId": "23"
+}
+{
+  "identity": 24,
+  "labels": [
+    "TipoVehiculo"
+  ],
+  "properties": {
+    "descripcion": "Automóvil deportivo",
+    "nombre": "Deportivo"
+  },
+  "elementId": "24"
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
