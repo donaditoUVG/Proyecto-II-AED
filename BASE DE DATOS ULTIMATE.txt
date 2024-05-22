@@ -1,55 +1,75 @@
 // Crear nodos de Escudería
-CREATE (escuderia1:Escuderia {nombre: "Red Bull"}),
-       (escuderia2:Escuderia {nombre: "Mercedes"});
+CREATE (escuderia1:Escuderia {nombre: "Citroën World Rally Team"}),
+       (escuderia2:Escuderia {nombre: "Ford World Rally Team"}),
+       (escuderia3:Escuderia {nombre: "Hyundai World Rally Team"});
 
 // Crear nodos de Piloto
 CREATE (piloto1:Piloto {nombre: "Sebastian Loeb", experiencia: 7}),
-       (piloto2:Piloto {nombre: "Lewis Hamilton", experiencia: 3});
+       (piloto2:Piloto {nombre: "Lewis Hamilton", experiencia: 3}),
+       (piloto3:Piloto {nombre: "Ott Tänak", experiencia: 5});
 
 // Crear nodos de Copiloto
 CREATE (copiloto1:Copiloto {nombre: "Daniel Elena", experiencia: 6}),
-       (copiloto2:Copiloto {nombre: "Valtteri Bottas", experiencia: 4});
+       (copiloto2:Copiloto {nombre: "Valtteri Bottas", experiencia: 4}),
+       (copiloto3:Copiloto {nombre: "Martin Järveoja", experiencia: 4});
 
 // Crear nodos de Vehículo
-CREATE (vehiculo1:Vehiculo {modelo: "RB16"}),
-       (vehiculo2:Vehiculo {modelo: "W11"});
+CREATE (vehiculo1:Vehiculo {modelo: "Citroën C3 WRC"}),
+       (vehiculo2:Vehiculo {modelo: "Ford Fiesta WRC"}),
+       (vehiculo3:Vehiculo {modelo: "Hyundai i20 WRC"});
 
 // Crear nodos de País
 CREATE (pais1:Pais {nombre: "Francia"}),
-       (pais2:Pais {nombre: "Reino Unido"});
+       (pais2:Pais {nombre: "Reino Unido"}),
+       (pais3:Pais {nombre: "Estonia"});
 
 // Establecer relaciones entre Escudería y Piloto/Copiloto
-MATCH (escuderia1:Escuderia {nombre: "Red Bull"}), (piloto1:Piloto {nombre: "Sebastian Loeb"})
+MATCH (escuderia1:Escuderia {nombre: "Citroën World Rally Team"}), (piloto1:Piloto {nombre: "Sebastian Loeb"})
 CREATE (escuderia1)-[:TIENE_PILOTO]->(piloto1);
 
-MATCH (escuderia1:Escuderia {nombre: "Red Bull"}), (copiloto1:Copiloto {nombre: "Daniel Elena"})
+MATCH (escuderia1:Escuderia {nombre: "Citroën World Rally Team"}), (copiloto1:Copiloto {nombre: "Daniel Elena"})
 CREATE (escuderia1)-[:TIENE_COPILOTO]->(copiloto1);
 
-MATCH (escuderia2:Escuderia {nombre: "Mercedes"}), (piloto2:Piloto {nombre: "Lewis Hamilton"})
+MATCH (escuderia2:Escuderia {nombre: "Ford World Rally Team"}), (piloto2:Piloto {nombre: "Lewis Hamilton"})
 CREATE (escuderia2)-[:TIENE_PILOTO]->(piloto2);
 
-MATCH (escuderia2:Escuderia {nombre: "Mercedes"}), (copiloto2:Copiloto {nombre: "Valtteri Bottas"})
+MATCH (escuderia2:Escuderia {nombre: "Ford World Rally Team"}), (copiloto2:Copiloto {nombre: "Valtteri Bottas"})
 CREATE (escuderia2)-[:TIENE_COPILOTO]->(copiloto2);
 
+MATCH (escuderia3:Escuderia {nombre: "Hyundai World Rally Team"}), (piloto3:Piloto {nombre: "Ott Tänak"})
+CREATE (escuderia3)-[:TIENE_PILOTO]->(piloto3);
+
+MATCH (escuderia3:Escuderia {nombre: "Hyundai World Rally Team"}), (copiloto3:Copiloto {nombre: "Martin Järveoja"})
+CREATE (escuderia3)-[:TIENE_COPILOTO]->(copiloto3);
+
 // Establecer relaciones entre Escudería y Vehículo
-MATCH (escuderia1:Escuderia {nombre: "Red Bull"}), (vehiculo1:Vehiculo {modelo: "RB16"})
+MATCH (escuderia1:Escuderia {nombre: "Citroën World Rally Team"}), (vehiculo1:Vehiculo {modelo: "Citroën C3 WRC"})
 CREATE (escuderia1)-[:UTILIZA_VEHICULO]->(vehiculo1);
 
-MATCH (escuderia2:Escuderia {nombre: "Mercedes"}), (vehiculo2:Vehiculo {modelo: "W11"})
+MATCH (escuderia2:Escuderia {nombre: "Ford World Rally Team"}), (vehiculo2:Vehiculo {modelo: "Ford Fiesta WRC"})
 CREATE (escuderia2)-[:UTILIZA_VEHICULO]->(vehiculo2);
 
+MATCH (escuderia3:Escuderia {nombre: "Hyundai World Rally Team"}), (vehiculo3:Vehiculo {modelo: "Hyundai i20 WRC"})
+CREATE (escuderia3)-[:UTILIZA_VEHICULO]->(vehiculo3);
+
 // Establecer relaciones entre Piloto/Copiloto y Vehículo
-MATCH (piloto1:Piloto {nombre: "Sebastian Loeb"}), (vehiculo1:Vehiculo {modelo: "RB16"})
+MATCH (piloto1:Piloto {nombre: "Sebastian Loeb"}), (vehiculo1:Vehiculo {modelo: "Citroën C3 WRC"})
 CREATE (piloto1)-[:PILOTA]->(vehiculo1);
 
-MATCH (copiloto1:Copiloto {nombre: "Daniel Elena"}), (vehiculo1:Vehiculo {modelo: "RB16"})
+MATCH (copiloto1:Copiloto {nombre: "Daniel Elena"}), (vehiculo1:Vehiculo {modelo: "Citroën C3 WRC"})
 CREATE (copiloto1)-[:COPILOTA]->(vehiculo1);
 
-MATCH (piloto2:Piloto {nombre: "Lewis Hamilton"}), (vehiculo2:Vehiculo {modelo: "W11"})
+MATCH (piloto2:Piloto {nombre: "Lewis Hamilton"}), (vehiculo2:Vehiculo {modelo: "Ford Fiesta WRC"})
 CREATE (piloto2)-[:PILOTA]->(vehiculo2);
 
-MATCH (copiloto2:Copiloto {nombre: "Valtteri Bottas"}), (vehiculo2:Vehiculo {modelo: "W11"})
+MATCH (copiloto2:Copiloto {nombre: "Valtteri Bottas"}), (vehiculo2:Vehiculo {modelo: "Ford Fiesta WRC"})
 CREATE (copiloto2)-[:COPILOTA]->(vehiculo2);
+
+MATCH (piloto3:Piloto {nombre: "Ott Tänak"}), (vehiculo3:Vehiculo {modelo: "Hyundai i20 WRC"})
+CREATE (piloto3)-[:PILOTA]->(vehiculo3);
+
+MATCH (copiloto3:Copiloto {nombre: "Martin Järveoja"}), (vehiculo3:Vehiculo {modelo: "Hyundai i20 WRC"})
+CREATE (copiloto3)-[:COPILOTA]->(vehiculo3);
 
 // Establecer relaciones entre Piloto/Copiloto y País
 MATCH (piloto1:Piloto {nombre: "Sebastian Loeb"}), (pais1:Pais {nombre: "Francia"})
@@ -63,3 +83,9 @@ CREATE (piloto2)-[:ES_DE]->(pais2);
 
 MATCH (copiloto2:Copiloto {nombre: "Valtteri Bottas"}), (pais2:Pais {nombre: "Reino Unido"})
 CREATE (copiloto2)-[:ES_DE]->(pais2);
+
+MATCH (piloto3:Piloto {nombre: "Ott Tänak"}), (pais3:Pais {nombre: "Estonia"})
+CREATE (piloto3)-[:ES_DE]->(pais3);
+
+MATCH (copiloto3:Copiloto {nombre: "Martin Järveoja"}), (pais3:Pais {nombre: "Estonia"})
+CREATE (copiloto3)-[:ES_DE]->(pais3);
