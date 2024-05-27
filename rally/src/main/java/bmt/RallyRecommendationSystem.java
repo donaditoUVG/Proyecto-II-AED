@@ -155,6 +155,21 @@ public class RallyRecommendationSystem implements AutoCloseable {
         }
     }
 
+    // Método para eliminar un nodo
+    public boolean deleteNode(String label, String identifier, Object value) {
+        try (Session session = driver.session()) {
+            session.writeTransaction(tx -> {
+                tx.run("MATCH (n:" + label + " {" + identifier + ": $value}) DETACH DELETE n",
+                        Values.parameters("value", value));
+                return null;
+            });
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     // Método para verificar si un equipo existe
     public boolean teamExists(int team_id) {
         try (Session session = driver.session()) {
@@ -330,7 +345,9 @@ public class RallyRecommendationSystem implements AutoCloseable {
                 System.out.println("6. Crear un patrocinador");
                 System.out.println("7. Crear una habilidad");
                 System.out.println("8. Crear un evento");
-                System.out.println("9. Salir");
+                System.out.println("9. Añadir un patrocinador");
+                System.out.println("10. Eliminar un equipo/patrocinador/piloto/copiloto/vehículo/patrocinador/habilidad/evento");
+                System.out.println("11. Salir");
                 System.out.print("Ingrese el número de la opción: ");
                 int option = scanner.nextInt();
                 scanner.nextLine(); // consume newline
@@ -361,6 +378,12 @@ public class RallyRecommendationSystem implements AutoCloseable {
                         handleCreateEvent(app, scanner);
                         break;
                     case 9:
+                        handleAddSponsor(app, scanner);
+                        break;
+                    case 10:
+                        handleDeleteNode(app, scanner);
+                        break;
+                    case 11:
                         System.out.println("Saliendo del programa.");
                         return;
                     default:
@@ -579,10 +602,90 @@ public class RallyRecommendationSystem implements AutoCloseable {
         }
     }
 
+    private static void handleAddSponsor(RallyRecommendationSystem app, Scanner scanner) {
+        System.out.println("Ingrese el nombre del patrocinador:");
+        String name = scanner.nextLine();
+        System.out.println("Ingrese el nivel de importancia del patrocinador:");
+        int importance_level = scanner.nextInt();
+        System.out.println("Ingrese la cantidad de patrocinio del patrocinador:");
+        int sponsorship_amount = scanner.nextInt();
+        scanner.nextLine(); // consume newline
 
- 
+        if (app.createSponsor(name, importance_level, sponsorship_amount)) {
+            System.out.println("Patrocinador creado exitosamente.");
+        } else {
+            System.out.println("Error al crear el patrocinador.");
+        }
+    }
 
+    private static void handleDeleteNode(RallyRecommendationSystem app, Scanner scanner) {
+        System.out.println("Seleccione el tipo de nodo a eliminar:");
+        System.out.println("1. Equipo");
+        System.out.println("2. Patrocinador");
+        System.out.println("3. Piloto");
+        System.out.println("4. Copiloto");
+        System.out.println("5. Vehículo");
+        System.out.println("6. Habilidad");
+        System.out.println("7. Evento");
+        int nodeType = scanner.nextInt();
+        scanner.nextLine(); // consume newline
 
-   
+        String label = "";
+        String identifier = "";
+        Object value = null;
 
+        switch (nodeType) {
+            case 1:
+                label = "Team";
+                System.out.println("Ingrese el ID del equipo a eliminar:");
+                identifier = "team_id";
+                value = scanner.nextInt();
+                break;
+            case 2:
+                label = "Sponsor";
+                System.out.println("Ingrese el nombre del patrocinador a eliminar:");
+                identifier = "name";
+                value = scanner.nextLine();
+                break;
+            case 3:
+                label = "Pilot";
+                System.out.println("Ingrese el ID del piloto a eliminar:");
+                identifier = "pilot_id";
+                value = scanner.nextInt();
+                break;
+            case 4:
+                label = "Copilot";
+                System.out.println("Ingrese el nombre del copiloto a eliminar:");
+                identifier = "name";
+                value = scanner.nextLine();
+                break;
+            case 5:
+                label = "Vehicle";
+                System.out.println("Ingrese el modelo del vehículo a eliminar:");
+                identifier = "model";
+                value = scanner.nextLine();
+                break;
+            case 6:
+                label = "Skill";
+                System.out.println("Ingrese el ID de la habilidad a eliminar:");
+                identifier = "skill_id";
+                value = scanner.nextInt();
+                break;
+            case 7:
+                label = "Event";
+                System.out.println("Ingrese el nombre del evento a eliminar:");
+                identifier = "name";
+                value = scanner.nextLine();
+                break;
+            default:
+                System.out.println("Tipo de nodo no válido.");
+                return;
+        }
+
+        if (app.deleteNode(label, identifier, value)) {
+            System.out.println("Nodo eliminado exitosamente.");
+        } else {
+            System.out.println("Error al eliminar el nodo.");
+        }
+    }
 }
