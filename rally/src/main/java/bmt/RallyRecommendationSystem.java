@@ -1,5 +1,7 @@
 package bmt;
 
+import java.util.Scanner;
+
 import org.neo4j.driver.AuthTokens;
 import org.neo4j.driver.Driver;
 import org.neo4j.driver.GraphDatabase;
@@ -71,20 +73,56 @@ public class RallyRecommendationSystem implements AutoCloseable {
     // Método principal para pruebas
     public static void main(String[] args) {
         try (RallyRecommendationSystem app = new RallyRecommendationSystem("bolt://localhost:7687", "neo4j", "password")) {
-            // Agregar equipos
-            app.addTeam("Team A", "USA", 1999, "John Doe", 5000000);
-            app.addTeam("Team B", "UK", 2005, "Jane Smith", 3000000);
+            Scanner scanner = new Scanner(System.in);
 
-            // Actualizar presupuesto del equipo
-            app.updateTeamBudget("Team A", 5500000);
+            // Menú de opciones
+            System.out.println("Seleccione una opción:");
+            System.out.println("1. Agregar información de un equipo");
+            System.out.println("2. Actualizar presupuesto de un equipo");
+            System.out.println("3. Eliminar información de un equipo");
+            System.out.print("Ingrese el número de la opción: ");
+            int opcion = scanner.nextInt();
 
-            // Recomendar equipos basados en el país
-            app.recommendTeams("USA");
+            switch (opcion) {
+                case 1:
+                    // Agregar información de un equipo
+                    System.out.println("Ingrese el nombre del equipo:");
+                    String nombreEquipo = scanner.next();
+                    System.out.println("Ingrese el país del equipo:");
+                    String paisEquipo = scanner.next();
+                    System.out.println("Ingrese el año de fundación del equipo:");
+                    int añoFundacion = scanner.nextInt();
+                    System.out.println("Ingrese el director del equipo:");
+                    String directorEquipo = scanner.next();
+                    System.out.println("Ingrese el presupuesto del equipo:");
+                    double presupuestoEquipo = scanner.nextDouble();
+                    app.addTeam(nombreEquipo, paisEquipo, añoFundacion, directorEquipo, presupuestoEquipo);
+                    break;
+                case 2:
+                    // Actualizar presupuesto de un equipo
+                    System.out.println("Ingrese el nombre del equipo a actualizar:");
+                    String nombreEquipoActualizar = scanner.next();
+                    System.out.println("Ingrese el nuevo presupuesto:");
+                    double nuevoPresupuesto = scanner.nextDouble();
+                    app.updateTeamBudget(nombreEquipoActualizar, nuevoPresupuesto);
+                    break;
+                case 3:
+                    // Eliminar información de un equipo
+                    System.out.println("Ingrese el nombre del equipo a eliminar:");
+                    String nombreEquipoEliminar = scanner.next();
+                    app.deleteTeam(nombreEquipoEliminar);
+                    break;
+                default:
+                    System.out.println("Opción no válida.");
+            }
 
-            // Eliminar equipo
-            app.deleteTeam("Team B");
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
+
+    /*
+     * 
+     */
 }
