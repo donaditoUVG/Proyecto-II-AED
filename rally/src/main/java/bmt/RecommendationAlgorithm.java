@@ -35,12 +35,12 @@ public class RecommendationAlgorithm implements AutoCloseable {
                 return false;
             }
 
-            String drivingStyle = teamResult.get("drivingStyle").asString();
-            String ageRange = teamResult.get("ageRange").asString();
-            int wins = teamResult.get("wins").asInt();
-            double budget = teamResult.get("budget").asDouble();
-            int experience = teamResult.get("experience").asInt();
-            double salary = teamResult.get("salary").asDouble();
+            String drivingStyle = teamResult.get("drivingStyle").isNull() ? "" : teamResult.get("drivingStyle").asString();
+            String ageRange = teamResult.get("ageRange").isNull() ? "0-0" : teamResult.get("ageRange").asString();
+            int wins = teamResult.get("wins").isNull() ? 0 : teamResult.get("wins").asInt();
+            double budget = teamResult.get("budget").isNull() ? 0.0 : teamResult.get("budget").asDouble();
+            int experience = teamResult.get("experience").isNull() ? 0 : teamResult.get("experience").asInt();
+            double salary = teamResult.get("salary").isNull() ? 0.0 : teamResult.get("salary").asDouble();
 
             String[] ageRangeSplit = ageRange.split("-");
             int ageRangeStart = Integer.parseInt(ageRangeSplit[0]);

@@ -106,21 +106,6 @@ public class RallyRecommendationSystem implements AutoCloseable {
         }
     }
 
-    // Método para añadir un patrocinador a un equipo
-    public boolean addSponsorToTeam(String teamName, String sponsorName) {
-        try (Session session = driver.session()) {
-            session.writeTransaction(tx -> {
-                tx.run("MATCH (t:Team {name: $teamName}), (s:Sponsor {name: $sponsorName}) CREATE (t)-[:SPONSORED_BY]->(s)",
-                        Values.parameters("teamName", teamName, "sponsorName", sponsorName));
-                return null;
-            });
-            return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
     // Método para crear una nueva habilidad
     public boolean createSkill(int skill_id, String name, int importance_level, String skill_type) {
         try (Session session = driver.session()) {
@@ -326,6 +311,21 @@ public class RallyRecommendationSystem implements AutoCloseable {
             session.writeTransaction(tx -> {
                 tx.run("MATCH (p:Pilot), (sk:Skill {skill_id: $skill_id}) WHERE p.special_skills CONTAINS sk.name CREATE (p)-[:HAS_SKILL]->(sk)", Values.parameters("skill_id", skill_id));
                 tx.run("MATCH (c:Copilot), (sk:Skill {skill_id: $skill_id}) WHERE c.special_skills CONTAINS sk.name CREATE (c)-[:HAS_SKILL]->(sk)", Values.parameters("skill_id", skill_id));
+                return null;
+            });
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    // Método para añadir un patrocinador a un equipo
+    public boolean addSponsorToTeam(String teamName, String sponsorName) {
+        try (Session session = driver.session()) {
+            session.writeTransaction(tx -> {
+                tx.run("MATCH (t:Team {name: $teamName}), (s:Sponsor {name: $sponsorName}) CREATE (t)-[:SPONSORED_BY]->(s)",
+                        Values.parameters("teamName", teamName, "sponsorName", sponsorName));
                 return null;
             });
             return true;
