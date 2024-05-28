@@ -3,9 +3,9 @@ package bmt;
 import java.util.Scanner;
 
 public class Main {
-
     public static void main(String[] args) {
-        try (RallyRecommendationSystem app = new RallyRecommendationSystem(); Scanner scanner = new Scanner(System.in)) {
+        try (RallyRecommendationSystem app = new RallyRecommendationSystem();
+             Scanner scanner = new Scanner(System.in)) {
             System.out.println("Ingrese la URL de conexión de la base de datos:");
             String uri = scanner.nextLine();
             System.out.println("Ingrese el usuario de la base de datos:");
@@ -14,6 +14,7 @@ public class Main {
             String password = scanner.nextLine();
 
             app.connect(uri, user, password);
+            RecommendationAlgorithm recommendationAlgorithm = new RecommendationAlgorithm(uri, user, password);
             System.out.println("Conexión exitosa a la base de datos.");
 
             while (true) {
@@ -27,8 +28,9 @@ public class Main {
                 System.out.println("7. Crear una habilidad");
                 System.out.println("8. Crear un evento");
                 System.out.println("9. Añadir un patrocinador");
-                System.out.println("10. Eliminar un equipo/patrocinador/piloto/copiloto/vehículo/patrocinador/habilidad/evento");
-                System.out.println("11. Salir");
+                System.out.println("10. Eliminar un equipo/patrocinador/piloto/copiloto/vehículo/habilidad/evento");
+                System.out.println("11. Recomendar pilotos");
+                System.out.println("12. Salir");
                 System.out.print("Ingrese el número de la opción: ");
                 int option = scanner.nextInt();
                 scanner.nextLine(); // consume newline
@@ -65,7 +67,11 @@ public class Main {
                         handleDeleteNode(app, scanner);
                         break;
                     case 11:
+                        handleRecommendPilots(recommendationAlgorithm, scanner);
+                        break;
+                    case 12:
                         System.out.println("Saliendo del programa.");
+                        recommendationAlgorithm.close();
                         return;
                     default:
                         System.out.println("Opción no válida. Intente de nuevo.");
@@ -214,14 +220,14 @@ public class Main {
 
     private static void handleCreateSponsor(RallyRecommendationSystem app, Scanner scanner) {
         System.out.println("Ingrese el nombre del patrocinador:");
-        String nombre = scanner.nextLine();
+        String nombrePatrocinador = scanner.nextLine();
         System.out.println("Ingrese el nivel de importancia del patrocinador:");
         int nivelImportancia = scanner.nextInt();
-        System.out.println("Ingrese la cantidad de patrocinio del patrocinador:");
-        int cantidadPatrocinio = scanner.nextInt();
+        System.out.println("Ingrese el monto de patrocinio del patrocinador:");
+        int montoPatrocinio = scanner.nextInt();
         scanner.nextLine(); // consume newline
 
-        if (app.createSponsor(nombre, nivelImportancia, cantidadPatrocinio)) {
+        if (app.createSponsor(nombrePatrocinador, nivelImportancia, montoPatrocinio)) {
             System.out.println("Patrocinador creado exitosamente.");
         } else {
             System.out.println("Error al crear el patrocinador.");
@@ -233,14 +239,14 @@ public class Main {
         int skill_id = scanner.nextInt();
         scanner.nextLine(); // consume newline
         System.out.println("Ingrese el nombre de la habilidad:");
-        String nombre = scanner.nextLine();
+        String nombreHabilidad = scanner.nextLine();
         System.out.println("Ingrese el nivel de importancia de la habilidad:");
         int nivelImportancia = scanner.nextInt();
         scanner.nextLine(); // consume newline
         System.out.println("Ingrese el tipo de habilidad:");
         String tipoHabilidad = scanner.nextLine();
 
-        if (app.createSkill(skill_id, nombre, nivelImportancia, tipoHabilidad)) {
+        if (app.createSkill(skill_id, nombreHabilidad, nivelImportancia, tipoHabilidad)) {
             System.out.println("Habilidad creada exitosamente.");
         } else {
             System.out.println("Error al crear la habilidad.");
@@ -257,45 +263,26 @@ public class Main {
         String ubicacionEvento = scanner.nextLine();
         System.out.println("Ingrese el tipo de superficie del evento:");
         String superficieEvento = scanner.nextLine();
-        System.out.println("Ingrese las escuderías que participaron en el evento (separadas por comas):");
-        String escuderiasParticipantes = scanner.nextLine();
+        System.out.println("Ingrese los equipos que participaron en el evento (separados por comas):");
+        String equiposParticipantes = scanner.nextLine();
 
-        if (app.createEvent(nombreEvento, yearEvento, ubicacionEvento, superficieEvento, escuderiasParticipantes)) {
+        if (app.createEvent(nombreEvento, yearEvento, ubicacionEvento, superficieEvento, equiposParticipantes)) {
             System.out.println("Evento creado exitosamente.");
         } else {
             System.out.println("Error al crear el evento.");
         }
     }
 
-    private static void handleDeleteTeam(RallyRecommendationSystem app, Scanner scanner) {
-        System.out.println("Ingrese el ID del equipo a eliminar:");
-        int team_id = scanner.nextInt();
-
-        if (!app.teamExists(team_id)) {
-            System.out.println("El equipo con ID " + team_id + " no existe.");
-            return;
-        }
-
-        if (app.deleteTeam(team_id)) {
-            System.out.println("Equipo eliminado exitosamente.");
-        } else {
-            System.out.println("Error al eliminar el equipo.");
-        }
-    }
-
     private static void handleAddSponsor(RallyRecommendationSystem app, Scanner scanner) {
+        System.out.println("Ingrese el nombre del equipo:");
+        String nombreEquipo = scanner.nextLine();
         System.out.println("Ingrese el nombre del patrocinador:");
-        String name = scanner.nextLine();
-        System.out.println("Ingrese el nivel de importancia del patrocinador:");
-        int importance_level = scanner.nextInt();
-        System.out.println("Ingrese la cantidad de patrocinio del patrocinador:");
-        int sponsorship_amount = scanner.nextInt();
-        scanner.nextLine(); // consume newline
+        String nombrePatrocinador = scanner.nextLine();
 
-        if (app.createSponsor(name, importance_level, sponsorship_amount)) {
-            System.out.println("Patrocinador creado exitosamente.");
+        if (app.addSponsorToTeam(nombreEquipo, nombrePatrocinador)) {
+            System.out.println("Patrocinador añadido exitosamente al equipo.");
         } else {
-            System.out.println("Error al crear el patrocinador.");
+            System.out.println("Error al añadir el patrocinador al equipo.");
         }
     }
 
@@ -321,6 +308,7 @@ public class Main {
                 System.out.println("Ingrese el ID del equipo a eliminar:");
                 identifier = "team_id";
                 value = scanner.nextInt();
+                scanner.nextLine(); // consume newline
                 break;
             case 2:
                 label = "Sponsor";
@@ -333,6 +321,7 @@ public class Main {
                 System.out.println("Ingrese el ID del piloto a eliminar:");
                 identifier = "pilot_id";
                 value = scanner.nextInt();
+                scanner.nextLine(); // consume newline
                 break;
             case 4:
                 label = "Copilot";
@@ -351,6 +340,7 @@ public class Main {
                 System.out.println("Ingrese el ID de la habilidad a eliminar:");
                 identifier = "skill_id";
                 value = scanner.nextInt();
+                scanner.nextLine(); // consume newline
                 break;
             case 7:
                 label = "Event";
@@ -367,6 +357,29 @@ public class Main {
             System.out.println("Nodo eliminado exitosamente.");
         } else {
             System.out.println("Error al eliminar el nodo.");
+        }
+    }
+
+    private static void handleDeleteTeam(RallyRecommendationSystem app, Scanner scanner) {
+        System.out.println("Ingrese el ID del equipo a eliminar:");
+        int team_id = scanner.nextInt();
+        scanner.nextLine(); // consume newline
+
+        if (app.deleteTeam(team_id)) {
+            System.out.println("Equipo eliminado exitosamente.");
+        } else {
+            System.out.println("Error al eliminar el equipo.");
+        }
+    }
+
+    private static void handleRecommendPilots(RecommendationAlgorithm recommendationAlgorithm, Scanner scanner) {
+        System.out.println("Ingrese el nombre del equipo:");
+        String nombreEquipo = scanner.nextLine();
+
+        if (recommendationAlgorithm.recommendPilots(nombreEquipo)) {
+            System.out.println("Recomendaciones generadas exitosamente.");
+        } else {
+            System.out.println("Error al generar recomendaciones.");
         }
     }
 }

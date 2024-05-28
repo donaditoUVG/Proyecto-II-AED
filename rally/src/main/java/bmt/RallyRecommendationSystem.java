@@ -106,6 +106,21 @@ public class RallyRecommendationSystem implements AutoCloseable {
         }
     }
 
+    // Método para añadir un patrocinador a un equipo
+    public boolean addSponsorToTeam(String teamName, String sponsorName) {
+        try (Session session = driver.session()) {
+            session.writeTransaction(tx -> {
+                tx.run("MATCH (t:Team {name: $teamName}), (s:Sponsor {name: $sponsorName}) CREATE (t)-[:SPONSORED_BY]->(s)",
+                        Values.parameters("teamName", teamName, "sponsorName", sponsorName));
+                return null;
+            });
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     // Método para crear una nueva habilidad
     public boolean createSkill(int skill_id, String name, int importance_level, String skill_type) {
         try (Session session = driver.session()) {
@@ -203,7 +218,7 @@ public class RallyRecommendationSystem implements AutoCloseable {
             session.writeTransaction(tx -> {
                 tx.run("MATCH (t:Team {team_id: $team_id}), (s:Sponsor {name: t.sponsor}) CREATE (t)-[:SPONSORED_BY]->(s)", Values.parameters("team_id", team_id));
                 tx.run("MATCH (t:Team {team_id: $team_id}), (c:Country {name: t.country}) CREATE (t)-[:BASED_IN]->(c)", Values.parameters("team_id", team_id));
-    
+
                 String[] eventos = eventos_participados.split(",");
                 for (String evento : eventos) {
                     evento = evento.trim();  // Eliminar espacios en blanco antes y después del nombre del evento
@@ -211,7 +226,7 @@ public class RallyRecommendationSystem implements AutoCloseable {
                     tx.run("MATCH (t:Team {team_id: $team_id}), (e:Event {name: $evento}) CREATE (t)-[:COMPETED_IN]->(e)",
                             Values.parameters("team_id", team_id, "evento", evento));
                 }
-    
+
                 tx.run("MATCH (t:Team {team_id: $team_id}), (p:Pilot) WHERE p.team_id = t.team_id CREATE (t)-[:HAS_PILOT]->(p)", Values.parameters("team_id", team_id));
                 tx.run("MATCH (t:Team {team_id: $team_id}), (c:Copilot) WHERE c.team = t.name CREATE (t)-[:HAS_COPILOT]->(c)", Values.parameters("team_id", team_id));
                 tx.run("MATCH (t:Team {team_id: $team_id}), (v:Vehicle) WHERE v.team = t.name CREATE (t)-[:USES_VEHICLE]->(v)", Values.parameters("team_id", team_id));
@@ -223,8 +238,7 @@ public class RallyRecommendationSystem implements AutoCloseable {
             return false;
         }
     }
-    
-    
+
     public boolean createPilotRelations(int pilot_id) {
         try (Session session = driver.session()) {
             session.writeTransaction(tx -> {
