@@ -18,67 +18,106 @@ public class Main {
             System.out.println("Conexión exitosa a la base de datos.");
 
             while (true) {
-                System.out.println("Seleccione una opción:");
-                System.out.println("1. Crear un equipo");
-                System.out.println("2. Eliminar un equipo");
-                System.out.println("3. Crear un piloto");
-                System.out.println("4. Crear un copiloto");
-                System.out.println("5. Crear un vehículo");
-                System.out.println("6. Crear un patrocinador");
-                System.out.println("7. Crear una habilidad");
-                System.out.println("8. Crear un evento");
-                System.out.println("9. Añadir un patrocinador");
-                System.out.println("10. Eliminar un equipo/patrocinador/piloto/copiloto/vehículo/habilidad/evento");
-                System.out.println("11. Recomendar pilotos");
-                System.out.println("12. Salir");
+                System.out.println("Seleccione el tipo de usuario:");
+                System.out.println("1. ADMIN");
+                System.out.println("2. USER");
+                System.out.println("3. Salir");
                 System.out.print("Ingrese el número de la opción: ");
-                int option = scanner.nextInt();
+                int userType = scanner.nextInt();
                 scanner.nextLine(); // consume newline
 
-                switch (option) {
-                    case 1:
-                        handleCreateTeam(app, scanner);
-                        break;
-                    case 2:
-                        handleDeleteTeam(app, scanner);
-                        break;
-                    case 3:
-                        handleCreatePilot(app, scanner);
-                        break;
-                    case 4:
-                        handleCreateCopilot(app, scanner);
-                        break;
-                    case 5:
-                        handleCreateVehicle(app, scanner);
-                        break;
-                    case 6:
-                        handleCreateSponsor(app, scanner);
-                        break;
-                    case 7:
-                        handleCreateSkill(app, scanner);
-                        break;
-                    case 8:
-                        handleCreateEvent(app, scanner);
-                        break;
-                    case 9:
-                        handleAddSponsor(app, scanner);
-                        break;
-                    case 10:
-                        handleDeleteNode(app, scanner);
-                        break;
-                    case 11:
-                        handleRecommendPilots(recommendationAlgorithm, scanner);
-                        break;
-                    case 12:
-                        System.out.println("Saliendo del programa.");
-                        recommendationAlgorithm.close();
-                        return;
-                    default:
-                        System.out.println("Opción no válida. Intente de nuevo.");
+                if (userType == 1) {
+                    adminMenu(app, scanner);
+                } else if (userType == 2) {
+                    userMenu(recommendationAlgorithm, scanner);
+                } else if (userType == 3) {
+                    System.out.println("Saliendo del programa.");
+                    recommendationAlgorithm.close();
+                    return;
+                } else {
+                    System.out.println("Opción no válida. Intente de nuevo.");
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    private static void adminMenu(RallyRecommendationSystem app, Scanner scanner) {
+        while (true) {
+            System.out.println("Seleccione una opción:");
+            System.out.println("1. Crear un equipo");
+            System.out.println("2. Eliminar un equipo");
+            System.out.println("3. Crear un piloto");
+            System.out.println("4. Crear un copiloto");
+            System.out.println("5. Crear un vehículo");
+            System.out.println("6. Crear un patrocinador");
+            System.out.println("7. Crear una habilidad");
+            System.out.println("8. Crear un evento");
+            System.out.println("9. Añadir un patrocinador");
+            System.out.println("10. Eliminar un equipo/patrocinador/piloto/copiloto/vehículo/habilidad/evento");
+            System.out.println("11. Salir");
+            System.out.print("Ingrese el número de la opción: ");
+            int option = scanner.nextInt();
+            scanner.nextLine(); // consume newline
+
+            switch (option) {
+                case 1:
+                    handleCreateTeam(app, scanner);
+                    break;
+                case 2:
+                    handleDeleteTeam(app, scanner);
+                    break;
+                case 3:
+                    handleCreatePilot(app, scanner);
+                    break;
+                case 4:
+                    handleCreateCopilot(app, scanner);
+                    break;
+                case 5:
+                    handleCreateVehicle(app, scanner);
+                    break;
+                case 6:
+                    handleCreateSponsor(app, scanner);
+                    break;
+                case 7:
+                    handleCreateSkill(app, scanner);
+                    break;
+                case 8:
+                    handleCreateEvent(app, scanner);
+                    break;
+                case 9:
+                    handleAddSponsor(app, scanner);
+                    break;
+                case 10:
+                    handleDeleteNode(app, scanner);
+                    break;
+                case 11:
+                    return;
+                default:
+                    System.out.println("Opción no válida. Intente de nuevo.");
+            }
+        }
+    }
+
+    private static void userMenu(RecommendationAlgorithm recommendationAlgorithm, Scanner scanner) {
+        while (true) {
+            System.out.println("Seleccione una opción:");
+            System.out.println("1. Recomendar pilotos");
+            System.out.println("2. Salir");
+            System.out.print("Ingrese el número de la opción: ");
+            int option = scanner.nextInt();
+            scanner.nextLine(); // consume newline
+
+            switch (option) {
+                case 1:
+                    handleRecommendPilots(recommendationAlgorithm, scanner);
+                    break;
+                case 2:
+                    return;
+                default:
+                    System.out.println("Opción no válida. Intente de nuevo.");
+            }
         }
     }
 
@@ -373,13 +412,29 @@ public class Main {
     }
 
     private static void handleRecommendPilots(RecommendationAlgorithm recommendationAlgorithm, Scanner scanner) {
-        System.out.println("Ingrese el nombre del equipo:");
-        String nombreEquipo = scanner.nextLine();
+        System.out.println("Para encontrar el piloto ideal para su equipo de rally, por favor responda las siguientes preguntas:");
+        System.out.println("1. ¿Cuál es el estilo de conducción preferido de su equipo? (Opciones: agresivo, defensivo, balanceado)");
+        String drivingStyle = scanner.nextLine();
+        System.out.println("2. ¿Cuál es el rango de edad preferido para el piloto? (Por favor ingrese en el formato: min-max, e.g., 25-35)");
+        String ageRange = scanner.nextLine();
+        System.out.println("3. ¿Cuál es el mínimo de victorias que desea que tenga el piloto?");
+        int wins = scanner.nextInt();
+        System.out.println("4. ¿Cuántos años de experiencia debería tener el piloto como mínimo?");
+        int experience = scanner.nextInt();
+        System.out.println("5. ¿Cuál es el presupuesto máximo que su equipo está dispuesto a gastar en un piloto?");
+        double budget = scanner.nextDouble();
+        System.out.println("6. ¿Cuál es la expectativa salarial promedio que su equipo puede ofrecer al piloto?");
+        double salary = scanner.nextDouble();
+        scanner.nextLine(); // consume newline
+        System.out.println("7. ¿Existen habilidades especiales o cualificaciones adicionales que son importantes para su equipo? (Por favor liste cualquier habilidad específica)");
+        String specialSkills = scanner.nextLine();
+        System.out.println("8. ¿En qué eventos debería haber participado el piloto? (Ingrese los nombres de los eventos separados por comas)");
+        String eventParticipation = scanner.nextLine();
+        System.out.println("9. ¿De qué país debería ser el piloto?");
+        String country = scanner.nextLine();
+        System.out.println("10. ¿Cuál es el patrocinador asociado con su equipo?");
+        String sponsor = scanner.nextLine();
 
-        if (recommendationAlgorithm.recommendPilots(nombreEquipo)) {
-            System.out.println("Recomendaciones generadas exitosamente.");
-        } else {
-            System.out.println("Error al generar recomendaciones.");
-        }
+        recommendationAlgorithm.recommendPilots(drivingStyle, ageRange, wins, experience, budget, salary, specialSkills, eventParticipation, country, sponsor);
     }
 }
