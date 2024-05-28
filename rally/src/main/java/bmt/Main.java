@@ -413,16 +413,17 @@ public class Main {
 
     private static void handleRecommendPilots(RecommendationAlgorithm recommendationAlgorithm, Scanner scanner) {
         System.out.println("Para encontrar el piloto ideal para su equipo de rally, por favor responda las siguientes preguntas:");
-        System.out.println("1. ¿Cuál es el estilo de conducción preferido de su equipo? (Opciones: agresivo, defensivo, balanceado)");
+        System.out.println("1. Ingrese el nombre de su equipo:");
+        String teamName = scanner.nextLine();
+        System.out.println("2. ¿Cuál es el estilo de conducción preferido de su equipo? (Opciones: agresivo, defensivo, balanceado)");
         String drivingStyle = scanner.nextLine();
-        System.out.println("2. ¿Cuál es el rango de edad preferido para el piloto? (Por favor ingrese en el formato: min-max, e.g., 25-35)");
-        String ageRange = scanner.nextLine();
-        System.out.println("3. ¿Cuál es el mínimo de victorias que desea que tenga el piloto?");
+        System.out.println("3. ¿Cuál es la edad mínima preferida para el piloto?");
+        int ageMin = scanner.nextInt();
+        scanner.nextLine(); // consume newline
+        System.out.println("4. ¿Cuál es el mínimo de victorias que desea que tenga el piloto?");
         int wins = scanner.nextInt();
-        System.out.println("4. ¿Cuántos años de experiencia debería tener el piloto como mínimo?");
+        System.out.println("5. ¿Cuántos años de experiencia debería tener el piloto como mínimo?");
         int experience = scanner.nextInt();
-        System.out.println("5. ¿Cuál es el presupuesto máximo que su equipo está dispuesto a gastar en un piloto?");
-        double budget = scanner.nextDouble();
         System.out.println("6. ¿Cuál es la expectativa salarial promedio que su equipo puede ofrecer al piloto?");
         double salary = scanner.nextDouble();
         scanner.nextLine(); // consume newline
@@ -432,9 +433,13 @@ public class Main {
         String eventParticipation = scanner.nextLine();
         System.out.println("9. ¿De qué país debería ser el piloto?");
         String country = scanner.nextLine();
-        System.out.println("10. ¿Cuál es el patrocinador asociado con su equipo?");
-        String sponsor = scanner.nextLine();
 
-        recommendationAlgorithm.recommendPilots(drivingStyle, ageRange, wins, experience, budget, salary, specialSkills, eventParticipation, country, sponsor);
+        System.out.println("Gracias por su colaboración. Con esta información, procederemos a buscar los pilotos más adecuados para su equipo.");
+
+        if (recommendationAlgorithm.recommendPilots(drivingStyle, ageMin, wins, experience, salary, specialSkills, eventParticipation, country, teamName)) {
+            System.out.println("Recomendaciones generadas exitosamente.");
+        } else {
+            System.out.println("Error al generar recomendaciones.");
+        }
     }
 }
