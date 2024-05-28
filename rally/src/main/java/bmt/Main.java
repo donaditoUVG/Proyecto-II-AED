@@ -103,21 +103,90 @@ public class Main {
     private static void userMenu(RecommendationAlgorithm recommendationAlgorithm, Scanner scanner) {
         while (true) {
             System.out.println("Seleccione una opción:");
-            System.out.println("1. Recomendar pilotos");
-            System.out.println("2. Salir");
+            System.out.println("1. Recomendar pilotos por equipo");
+            System.out.println("2. Buscar pilotos por cualidades específicas");
+            System.out.println("3. Salir");
             System.out.print("Ingrese el número de la opción: ");
             int option = scanner.nextInt();
             scanner.nextLine(); // consume newline
 
             switch (option) {
                 case 1:
-                    handleRecommendPilots(recommendationAlgorithm, scanner);
+                    handleRecommendPilotsByTeam(recommendationAlgorithm, scanner);
                     break;
                 case 2:
+                    handleRecommendPilotsBySpecific(recommendationAlgorithm, scanner);
+                    break;
+                case 3:
                     return;
                 default:
                     System.out.println("Opción no válida. Intente de nuevo.");
             }
+        }
+    }
+
+    private static void handleRecommendPilotsByTeam(RecommendationAlgorithm recommendationAlgorithm, Scanner scanner) {
+        System.out.println("Ingrese el nombre del equipo:");
+        String teamName = scanner.nextLine();
+        System.out.println("Ingrese el ID del equipo:");
+        int teamId = scanner.nextInt();
+        scanner.nextLine(); // consume newline
+
+        System.out.println("Gracias por su colaboración. Con esta información, procederemos a buscar los pilotos más adecuados para su equipo.");
+
+        if (recommendationAlgorithm.recommendPilotsByTeam(teamName, teamId)) {
+            System.out.println("Recomendaciones generadas exitosamente.");
+        } else {
+            System.out.println("Error al generar recomendaciones.");
+        }
+    }
+
+    private static void handleRecommendPilotsBySpecific(RecommendationAlgorithm recommendationAlgorithm, Scanner scanner) {
+        System.out.println("Seleccione una opción para buscar pilotos por cualidades específicas:");
+        System.out.println("1. Eventos participados");
+        System.out.println("2. País");
+        System.out.println("3. Victorias");
+        System.out.println("4. Edad");
+        System.out.println("5. Expectativa salarial");
+        System.out.print("Ingrese el número de la opción: ");
+        int specificOption = scanner.nextInt();
+        scanner.nextLine(); // consume newline
+
+        String specificType = "";
+        switch (specificOption) {
+            case 1:
+                specificType = "eventos";
+                System.out.println("Ingrese el nombre del evento:");
+                break;
+            case 2:
+                specificType = "pais";
+                System.out.println("Ingrese el país:");
+                break;
+            case 3:
+                specificType = "victorias";
+                System.out.println("Ingrese el número mínimo de victorias:");
+                break;
+            case 4:
+                specificType = "edad";
+                System.out.println("Ingrese la edad máxima:");
+                break;
+            case 5:
+                specificType = "salario";
+                System.out.println("Ingrese la expectativa salarial máxima:");
+                break;
+            default:
+                System.out.println("Opción no válida.");
+                return;
+        }
+
+        String specificValue = scanner.nextLine();
+
+        System.out.println("Gracias por su colaboración. Con esta información, procederemos a buscar los pilotos más adecuados según la cualidad específica.");
+
+        if (recommendationAlgorithm.recommendPilotsBySpecific(specificType, specificValue)) {
+            System.out.println("Recomendaciones generadas exitosamente.");
+        } else {
+            System.out.println("Error al generar recomendaciones.");
         }
     }
 
@@ -408,38 +477,6 @@ public class Main {
             System.out.println("Equipo eliminado exitosamente.");
         } else {
             System.out.println("Error al eliminar el equipo.");
-        }
-    }
-
-    private static void handleRecommendPilots(RecommendationAlgorithm recommendationAlgorithm, Scanner scanner) {
-        System.out.println("Para encontrar el piloto ideal para su equipo de rally, por favor responda las siguientes preguntas:");
-        System.out.println("1. Ingrese el nombre de su equipo:");
-        String teamName = scanner.nextLine();
-        System.out.println("2. ¿Cuál es el estilo de conducción preferido de su equipo? (Opciones: agresivo, defensivo, balanceado)");
-        String drivingStyle = scanner.nextLine();
-        System.out.println("3. ¿Cuál es la edad mínima preferida para el piloto?");
-        int ageMin = scanner.nextInt();
-        scanner.nextLine(); // consume newline
-        System.out.println("4. ¿Cuál es el mínimo de victorias que desea que tenga el piloto?");
-        int wins = scanner.nextInt();
-        System.out.println("5. ¿Cuántos años de experiencia debería tener el piloto como mínimo?");
-        int experience = scanner.nextInt();
-        System.out.println("6. ¿Cuál es la expectativa salarial promedio que su equipo puede ofrecer al piloto?");
-        double salary = scanner.nextDouble();
-        scanner.nextLine(); // consume newline
-        System.out.println("7. ¿Existen habilidades especiales o cualificaciones adicionales que son importantes para su equipo? (Por favor liste cualquier habilidad específica)");
-        String specialSkills = scanner.nextLine();
-        System.out.println("8. ¿En qué eventos debería haber participado el piloto? (Ingrese los nombres de los eventos separados por comas)");
-        String eventParticipation = scanner.nextLine();
-        System.out.println("9. ¿De qué país debería ser el piloto?");
-        String country = scanner.nextLine();
-
-        System.out.println("Gracias por su colaboración. Con esta información, procederemos a buscar los pilotos más adecuados para su equipo.");
-
-        if (recommendationAlgorithm.recommendPilots(drivingStyle, ageMin, wins, experience, salary, specialSkills, eventParticipation, country, teamName)) {
-            System.out.println("Recomendaciones generadas exitosamente.");
-        } else {
-            System.out.println("Error al generar recomendaciones.");
         }
     }
 }
